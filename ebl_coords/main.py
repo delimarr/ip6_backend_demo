@@ -19,7 +19,8 @@ from ebl_coords.graph_db.graph_db_api import GraphDbApi
 if TYPE_CHECKING:
     from ebl_coords.backend.command.command import Command
 
-MY_IP: str = "127.0.0.1"
+DOCKER_IP: str = "0.0.0.0"
+DEVICE_IP: str = "192.168.103.98"
 PORT: int = 42069
 
 
@@ -48,7 +49,7 @@ class EblCoords:
 
         self.graphdb = GraphDbApi()
 
-        self.ip = MY_IP
+        self.ip = DOCKER_IP
         self.port = PORT
 
     def update_ecos_df(self) -> None:
@@ -76,4 +77,4 @@ def attach() -> str:
         str: ip:port
     """
     Thread(target=ebl_coords.attach_stream_socket).start()
-    return f"{MY_IP}:{PORT}"
+    return f"{DEVICE_IP}:{PORT}"
