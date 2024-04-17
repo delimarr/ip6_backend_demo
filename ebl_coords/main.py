@@ -1,18 +1,19 @@
+"""Slim backend with REST Api."""
 from __future__ import annotations
 
-from flask import Flask
 from queue import Queue
 from threading import Thread
 from typing import TYPE_CHECKING
 
 import pandas as pd
+from flask import Flask
 
 from ebl_coords.backend.command.invoker import Invoker
 from ebl_coords.backend.constants import CALLBACK_DT_MS, CONFIG_JSON, ECOS_DF_LOCK, MOCK_FLG
 from ebl_coords.backend.ecos import get_ecos_df, get_ecos_df_live, get_ecos_df_mock, load_config
 from ebl_coords.backend.observable.ecos_subject import EcosSubject
-from ebl_coords.backend.observable.stream_observer import StreamObserver
 from ebl_coords.backend.observable.gtcommand_subject import GtCommandSubject
+from ebl_coords.backend.observable.stream_observer import StreamObserver
 from ebl_coords.graph_db.graph_db_api import GraphDbApi
 
 if TYPE_CHECKING:
@@ -20,6 +21,7 @@ if TYPE_CHECKING:
 
 MY_IP: str = "127.0.0.1"
 PORT: int = 42069
+
 
 class EblCoords:
     """Main Backend."""
@@ -60,12 +62,13 @@ class EblCoords:
         stream_obs = StreamObserver(self.ip, self.port)
         self.port += 1
         GtCommandSubject().attach_all_coord(stream_obs)
-        
+
 
 app = Flask(__name__)
 ebl_coords = EblCoords()
 
-@app.post("/attach")
+
+@app.post("/attach")  # type: ignore
 def attach() -> str:
     """Return local ipv4 port of tcp socket streaming all filtered coords from gt command.
 

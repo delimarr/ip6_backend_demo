@@ -1,12 +1,21 @@
+"""Example client using REST Api and listen to socket."""
+from socket import AF_INET, SOCK_STREAM, socket
+
 import requests
-from socket import socket, AF_INET, SOCK_STREAM
 
 DELIMITER = b";"
 
-def listen(ip: str, port: int) -> None:
+
+def listen(ipv4: str, port: int) -> None:
+    """Read socket and print recv to console.
+
+    Args:
+        ipv4 (str): local ipv4
+        port (int): port
+    """
     buffer = b""
     with socket(AF_INET, SOCK_STREAM) as sock:
-        sock.connect((ip, port))
+        sock.connect((ipv4, port))
         while True:
             block = sock.recv(1024)
             if not block:
@@ -14,14 +23,13 @@ def listen(ip: str, port: int) -> None:
 
             while DELIMITER not in buffer:
                 buffer += block
-            
+
             line, _, buffer = buffer.partition(DELIMITER)
             print(line.decode("utf-8"))
 
 
-if __name__=="__main__":
-    url = "http://127.0.0.1:5000/attach"
-    r = requests.post(url=url)
-    ip, port = r.text.split(":")
-    port = int(port)
-    listen(ip, port)
+if __name__ == "__main__":
+    URL = "http://127.0.0.1:5000/attach"
+    r = requests.post(url=URL)
+    ip, my_port = r.text.split(":")
+    listen(ip, int(my_port))
