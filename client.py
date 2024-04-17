@@ -29,7 +29,7 @@ def listen(ipv4: str, port: int) -> None:
 
 
 if __name__ == "__main__":
-    URL = "http://127.0.0.1:5000/attach"
+    URL = "http://127.0.0.1:50000/attach"
     r = requests.post(url=URL)
     ip, my_port = r.text.split(":")
     listen(ip, int(my_port))

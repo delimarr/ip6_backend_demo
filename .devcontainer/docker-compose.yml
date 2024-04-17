@@ -10,7 +10,10 @@ services:
       - DEV_CONTAINER=1
     networks:
       - ebl-net
+    ports:
+      - "50000:5000"
 
 networks:
   ebl-net:
     name: ebl
+    external: true
