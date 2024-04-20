@@ -79,3 +79,4 @@ def attach() -> str:
     Thread(target=ebl_coords.attach_stream_socket).start()
     return f"{DEVICE_IP}:{PORT}"
 
+
