@@ -7,6 +7,8 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 import pandas as pd
 
+from os import environ
+
 from ebl_coords.backend.constants import MOCK_FLG
 from ebl_coords.graph_db.graph_db_api import GraphDbApi
 
@@ -25,8 +27,11 @@ def load_config(config_file: str) -> Tuple[List[str], Dict[str, Any]]:
         bpks: List[str] = config["bpks"]
         ecos_config: Dict[str, Any] = config["ecos"]
         if MOCK_FLG:
+            ip = "127.0.0.1"
+            if "DEV_CONTAINER" in environ:
+                ip = "192.168.103.98"
             for key in ecos_config["bpk_ip"].keys():
-                ecos_config["bpk_ip"][key] = "127.0.0.1"
+                ecos_config["bpk_ip"][key] = ip
                 ecos_config["port"] = 42043
         return bpks, ecos_config
 

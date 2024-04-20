@@ -1,4 +1,5 @@
 """Constants, server config."""
+from os import environ
 from os.path import abspath
 from threading import RLock
 
@@ -16,6 +17,8 @@ GTCOMMAND_IP: str = "192.168.128.20"
 GTCOMMAND_PORT: int = 18002
 if MOCK_FLG:
     GTCOMMAND_IP = "127.0.0.1"
+    if "DEV_CONTAINER" in environ:
+        GTCOMMAND_IP = "192.168.103.98"
     GTCOMMAND_PORT = 42042
 
 # if true, set all z-coordinates to zero.
