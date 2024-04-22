@@ -70,12 +70,11 @@ ebl_coords = EblCoords()
 
 
 @app.post("/attach")  # type: ignore
-def attach() -> str:
-    """Return local ipv4 port of tcp socket streaming all filtered coords from gt command.
+def attach() -> None:
+    """Return local ipv4 port of tcp socket streaming all filtered coords from gt command
 
     Returns:
         str: ip:port
     """
     Thread(target=ebl_coords.attach_stream_socket).start()
-    return f"{DEVICE_IP}" ":" f"{PORT}"
-    # return f"{DEVICE_IP}:{PORT}"
+    return f"{DEVICE_IP}:{PORT}"
